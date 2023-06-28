@@ -1,3 +1,4 @@
+import { Counter } from '@/components/Counter'
 import { ModeToggle } from '@/components/ModeToggle'
 import {
     Tooltip,
@@ -5,18 +6,13 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
     return (
         <main>
-            <Tooltip>
-                <TooltipTrigger>
-                    <ModeToggle />
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>Add to library</p>
-                </TooltipContent>
-            </Tooltip>
+            <Link href={'/dashboard'}>app</Link>
+            <Counter/>
         </main>
     )
 }
