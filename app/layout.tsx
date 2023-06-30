@@ -20,14 +20,14 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <StoreProvider>
-            <html lang="en" suppressHydrationWarning>
-                <head>
-                    <link rel="shortcut icon" href="./favicon.svg" />
-                </head>
-                <body
-                    className={`min-h-screen bg-background font-sans antialiased`}
-                >
+        <html lang="en" suppressHydrationWarning>
+            <head>
+                <link rel="shortcut icon" href="./favicon.svg" />
+            </head>
+            <body
+                className={`min-h-screen bg-background font-sans antialiased`}
+            >
+                <StoreProvider>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
@@ -37,8 +37,8 @@ export default function RootLayout({
                             <DashboardLayout>{children}</DashboardLayout>
                         </TooltipProvider>
                     </ThemeProvider>
-                </body>
-            </html>
-        </StoreProvider>
+                </StoreProvider>
+            </body>
+        </html>
     )
 }

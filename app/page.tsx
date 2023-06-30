@@ -11,7 +11,7 @@ import Link from 'next/link'
 export default function Home() {
     return (
         <main>
-            <Link href={'/dashboard'}>app</Link>
+            <Link href={'/dash'}>app</Link>
         </main>
     )
 }
