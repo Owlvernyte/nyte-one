@@ -3,14 +3,15 @@
 import React from 'react'
 import Header from './Header'
 import SideBar from './SideBar'
-import { selectSidebarValue, useSelector } from '@/lib/redux'
+import useSidebar from '@/lib/hooks/useSidebar'
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
-    const sidebarValue = useSelector(selectSidebarValue)
+    const { sidebarValue } = useSidebar()
+
     return (
         <div className="h-screen flex flex-row w-full">
             {sidebarValue && <SideBar />}

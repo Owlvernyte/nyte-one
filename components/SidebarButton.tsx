@@ -1,19 +1,14 @@
 'use client'
 
-import {
-    selectSidebarValue,
-    sidebarSlice,
-    useDispatch,
-    useSelector,
-} from '@/lib/redux'
 import React from 'react'
 import { Button } from './ui/button'
 import { PanelLeft, PanelLeftClose } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import useSidebar from '@/lib/hooks/useSidebar'
 
 function SidebarToggleButton() {
-    const dispatch = useDispatch()
-    const sidebarValue = useSelector(selectSidebarValue)
+    const { sidebarValue, toggle } = useSidebar()
+
     return (
         <Tooltip>
             <TooltipTrigger>
@@ -21,7 +16,7 @@ function SidebarToggleButton() {
                     size={'icon'}
                     variant={'ghost'}
                     onClick={() => {
-                        dispatch(sidebarSlice.actions.toggle())
+                        toggle()
                     }}
                 >
                     {sidebarValue ? <PanelLeftClose /> : <PanelLeft />}

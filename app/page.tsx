@@ -1,4 +1,4 @@
-import { Counter } from '@/components/Counter'
+
 import { ModeToggle } from '@/components/ModeToggle'
 import {
     Tooltip,
@@ -12,7 +12,6 @@ export default function Home() {
     return (
         <main>
             <Link href={'/dashboard'}>app</Link>
-            <Counter/>
         </main>
     )
 }

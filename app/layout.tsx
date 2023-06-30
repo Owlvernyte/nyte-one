@@ -1,13 +1,17 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import Header from '@/components/Header'
-import { Providers } from '@/lib/providers'
 import DashboardLayout from '@/components/DashboardLayout'
+import { Metadata } from 'next'
+import StoreProvider from '@/lib/StoreProvider'
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'Nyte One',
     description: 'An aio web tools.',
+    viewport: {
+        width: 'device-width',
+        initialScale: 1,
+    },
 }
 
 export default function RootLayout({
@@ -16,7 +20,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <Providers>
+        <StoreProvider>
             <html lang="en" suppressHydrationWarning>
                 <head>
                     <link rel="shortcut icon" href="./favicon.svg" />
@@ -35,6 +39,6 @@ export default function RootLayout({
                     </ThemeProvider>
                 </body>
             </html>
-        </Providers>
+        </StoreProvider>
     )
 }
