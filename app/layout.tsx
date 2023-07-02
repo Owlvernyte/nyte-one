@@ -4,6 +4,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import DashboardLayout from '@/components/DashboardLayout'
 import { Metadata } from 'next'
 import StoreProvider from '@/lib/StoreProvider'
+import { NextAuthProvider } from '@/components/NextAuthProvider'
 
 export const metadata: Metadata = {
     title: 'Nyte One',
@@ -27,17 +28,19 @@ export default function RootLayout({
             <body
                 className={`min-h-screen bg-background font-sans antialiased`}
             >
-                <StoreProvider>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                    >
-                        <TooltipProvider>
-                            <DashboardLayout>{children}</DashboardLayout>
-                        </TooltipProvider>
-                    </ThemeProvider>
-                </StoreProvider>
+                <NextAuthProvider>
+                    <StoreProvider>
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="system"
+                            enableSystem
+                        >
+                            <TooltipProvider>
+                                <DashboardLayout>{children}</DashboardLayout>
+                            </TooltipProvider>
+                        </ThemeProvider>
+                    </StoreProvider>
+                </NextAuthProvider>
             </body>
         </html>
     )
