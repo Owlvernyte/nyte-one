@@ -16,15 +16,13 @@ function NavLinks({ navLinks }: { navLinks: NavLink[] }) {
     return (
         <ul>
             {navLinks.map((v, i) => {
-                const isCurrent =  v.href === '/' + pathname.split('/').slice(1).pop()
+                const isCurrent = pathname
+                    ? v.href === '/' + pathname.split('/').slice(1).pop()
+                    : false
                 return (
                     <li key={v.href + '_' + i}>
                         <Button
-                            variant={
-                                isCurrent
-                                    ? 'secondary'
-                                    : 'ghost'
-                            }
+                            variant={isCurrent ? 'secondary' : 'ghost'}
                             size={'sm'}
                             className="w-full justify-start"
                             asChild
