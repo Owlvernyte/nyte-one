@@ -20,10 +20,10 @@ export default async function Home() {
     console.log(session)
 
     return (
-        <main >
+        <div>
             <Link href={'/dash'}>app</Link>
 
-            <div >
+            <div>
                 <LoginButton />
                 <RegisterButton />
                 <LogoutButton />
@@ -34,6 +34,6 @@ export default async function Home() {
 
                 <User />
             </div>
-        </main>
+        </div>
     )
 }
