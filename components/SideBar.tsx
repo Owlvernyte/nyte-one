@@ -13,11 +13,11 @@ export const navLinks: NavLink[] = [
     },
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/dash',
     },
     {
-        title: 'Url Shortener',
-        href: '/url-shortener',
+        title: 'Profile',
+        href: '/profile',
     },
 ]
 
