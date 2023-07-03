@@ -5,6 +5,7 @@ import {
     ProfileButton,
     RegisterButton,
 } from '@/components/buttons.component'
+import { Button } from '@/components/ui/button'
 import {
     Tooltip,
     TooltipContent,
@@ -24,13 +25,15 @@ export default async function Home() {
             <Link href={'/dash'}>app</Link>
 
             <div>
-                <LoginButton />
+                <Button asChild>
+                    <Link href={'/auth/signin'}>Signin</Link>
+                </Button>
                 <RegisterButton />
                 <LogoutButton />
                 <ProfileButton />
 
                 <h1>Server Session</h1>
-                <pre>{JSON.stringify(session)}</pre>
+                <p className="break-all">{JSON.stringify(session)}</p>
 
                 <User />
             </div>

@@ -4,8 +4,8 @@ import { signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 
-export const LoginButton = () => {
-    return <Button onClick={() => signIn("discord")}>Sign in</Button>
+export const LoginButton = ({ providerId }: { providerId: string }) => {
+    return <Button onClick={() => signIn(providerId)}>Sign in with {providerId}</Button>
 }
 
 export const RegisterButton = () => {

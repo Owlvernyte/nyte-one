@@ -16,4 +16,27 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.DISCORD_CLIENT_SECRET as string
         })
     ],
+    callbacks: {
+        session: async ({ session, token, user }) => {
+            if (session?.user) {
+                session.user.id = token.sub;
+            }
+            return session;
+        },
+        jwt: async ({ user, token, account, profile }) => {
+            if (user) {
+                token.uid = user.id;
+            }
+
+            // if (account) {
+            //     token.accessToken = account.access_token
+            //     if (profile)
+            //     token.id = profile.id
+            // }
+            return token;
+        },
+    },
+    pages: {
+        signIn: "/auth/signin"
+    }
 };
