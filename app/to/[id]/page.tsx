@@ -1,9 +1,7 @@
 import { getUrlByQuery } from '@/lib/services/url-shortener.service'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 import React from 'react'
-
 import ogs from 'open-graph-scraper'
-import axios from 'axios'
 
 type Props = {
     params: { id: string }
@@ -11,8 +9,7 @@ type Props = {
 }
 
 export async function generateMetadata({
-    params,
-    searchParams,
+    params
 }: Props): Promise<Metadata> {
     // read route params
     const id = params.id
