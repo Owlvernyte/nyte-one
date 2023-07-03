@@ -8,9 +8,7 @@ type Props = {
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({
-    params
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // read route params
     const id = params.id
 
@@ -35,20 +33,20 @@ export async function generateMetadata({
                 description: urlMetadata.ogDescription,
                 url: urlMetadata.ogUrl,
                 siteName: urlMetadata.ogSiteName,
-                type: urlMetadata.ogType as
-                    | 'website'
-                    | 'article'
-                    | 'book'
-                    | 'profile'
-                    | 'music.song'
-                    | 'music.album'
-                    | 'music.playlist'
-                    | 'music.radio_station'
-                    | 'video.movie'
-                    | 'video.episode'
-                    | 'video.tv_show'
-                    | 'video.other'
-                    | undefined,
+                // type: urlMetadata.ogType as
+                //     | 'website'
+                //     | 'article'
+                //     | 'book'
+                //     | 'profile'
+                //     | 'music.song'
+                //     | 'music.album'
+                //     | 'music.playlist'
+                //     | 'music.radio_station'
+                //     | 'video.movie'
+                //     | 'video.episode'
+                //     | 'video.tv_show'
+                //     | 'video.other'
+                //     | undefined,
             },
             twitter: {
                 images: urlMetadata.twitterImage || [],
@@ -72,8 +70,13 @@ export async function generateMetadata({
     }
 }
 
-function ToUrl({ params, searchParams }: Props) {
-    return <div>{params.id}</div>
+async function ToUrl({ params, searchParams }: Props) {
+    const shortenedUrl = await getUrlByQuery(params.id)
+    return (
+        <div>
+            {params.id} {shortenedUrl?.url}
+        </div>
+    )
 }
 
 export default ToUrl
@@ -82,10 +85,12 @@ async function getUrlMetadata(url: string) {
     const userAgent =
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
 
-    // const fetched = (await axios.get(url).data
+    const fetched = await fetch(url)
+    const parsedHtml = await fetched.text()
 
     const data = await ogs({
-        url,
+        html: parsedHtml,
+        url: fetched.url,
     })
 
     const { error, html, result, response } = data

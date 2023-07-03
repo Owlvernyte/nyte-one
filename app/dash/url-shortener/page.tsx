@@ -2,21 +2,28 @@ import { authOptions } from '@/lib/auth'
 import { getUserUrls } from '@/lib/services/url-shortener.service'
 import { getServerSession } from 'next-auth'
 import React from 'react'
+import { DataTable } from './data-table'
+import { ShortenedUrl, columns } from './columns'
+import CreateUrlForm from './create-url-form'
 
 async function UrlShortener() {
     const session = await getServerSession(authOptions)
     const userUrls = await getUserUrls(session?.user.id!)
+    const convertedData = await userUrls.map((v) => {
+        const direct = `${v.direct}`
+        return {
+            ...v,
+            direct,
+        } satisfies ShortenedUrl
+    })
 
     return (
         <div>
-            <div>create a shortened url</div>
+            <div className="py-4">
+                <CreateUrlForm />
+            </div>
             <div>
-                {userUrls.map((v, i) => (
-                    <div key={v.id}>
-                        <p>Id: {v.shortenedId}</p>
-                        <p>Url: {v.url}</p>
-                    </div>
-                ))}
+                <DataTable columns={columns} data={convertedData} />
             </div>
         </div>
     )

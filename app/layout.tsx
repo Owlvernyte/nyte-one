@@ -5,6 +5,7 @@ import DashboardLayout from '@/components/DashboardLayout'
 import { Metadata } from 'next'
 import StoreProvider from '@/lib/StoreProvider'
 import { NextAuthProvider } from '@/components/NextAuthProvider'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
     title: 'Nyte One',
@@ -41,6 +42,7 @@ export default function RootLayout({
                         </ThemeProvider>
                     </StoreProvider>
                 </NextAuthProvider>
+                <Toaster/>
             </body>
         </html>
     )
