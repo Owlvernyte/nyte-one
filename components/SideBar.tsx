@@ -5,7 +5,7 @@ import NavLinks, { NavLink } from './NavLinks'
 export const navLinks: NavLink[] = [
     {
         title: 'Url Shortener',
-        href: '/url-shortener',
+        href: '/dash/url-shortener',
     },
     {
         title: 'Auto danh gia hutech',

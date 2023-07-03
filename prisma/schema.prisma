@@ -67,6 +67,7 @@ model ShortenedUrl {
     shortenedId String
     customId    String? @unique
     url         String
+    direct      Boolean @default(true)
     clicks      Int     @default(0)
     views       Int     @default(0)
     userId      String  @map("user_id")

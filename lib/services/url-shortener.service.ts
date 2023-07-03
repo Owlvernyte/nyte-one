@@ -24,6 +24,26 @@ export async function getUrlById(id: string) {
     return result;
 }
 
+export async function getUrlByQuery(query: string) {
+    const result = await URLS.findFirst({
+        where: {
+            OR: [
+                {
+                    id: query
+                },
+                {
+                    customId: query
+                },
+                {
+                    shortenedId: query
+                }
+            ]
+        }
+    })
+
+    return result;
+}
+
 export type CreateShortenedUrlInput = {
     url: string,
     userId: string,
