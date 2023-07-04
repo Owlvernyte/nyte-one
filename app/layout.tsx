@@ -1,11 +1,11 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import DashboardLayout from '@/components/DashboardLayout'
 import { Metadata } from 'next'
 import StoreProvider from '@/lib/StoreProvider'
 import { NextAuthProvider } from '@/components/NextAuthProvider'
 import { Toaster } from '@/components/ui/toaster'
+import { PropsWithChildren } from 'react'
 
 export const metadata: Metadata = {
     title: 'Nyte One',
@@ -16,11 +16,7 @@ export const metadata: Metadata = {
     },
 }
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -36,13 +32,11 @@ export default function RootLayout({
                             defaultTheme="system"
                             enableSystem
                         >
-                            <TooltipProvider>
-                                <DashboardLayout>{children}</DashboardLayout>
-                            </TooltipProvider>
+                            <TooltipProvider>{children}</TooltipProvider>
                         </ThemeProvider>
                     </StoreProvider>
                 </NextAuthProvider>
-                <Toaster/>
+                <Toaster />
             </body>
         </html>
     )

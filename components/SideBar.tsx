@@ -2,11 +2,12 @@ import React from 'react'
 import { Separator } from './ui/separator'
 import NavLinks, { NavLink } from './NavLinks'
 import Link from 'next/link'
+import { Button } from './ui/button'
 
 export const navLinks: NavLink[] = [
     {
         title: 'Url Shortener',
-        href: '/dash/url-shortener',
+        href: '/app/url-shortener',
     },
     {
         title: 'Auto danh gia hutech',
@@ -14,7 +15,7 @@ export const navLinks: NavLink[] = [
     },
     {
         title: 'Dashboard',
-        href: '/dash',
+        href: '/app',
     },
     {
         title: 'Profile',
@@ -25,11 +26,14 @@ export const navLinks: NavLink[] = [
 function SideBar({ children }: { children?: React.ReactNode }) {
     return (
         <div className="lg:w-96 md:w-56 w-48 min-w-fit border-r-[0.5px] border-r-black/10 dark:border-r-white/10 flex flex-col space-y-2 p-2">
-            <Link href={'/'}>
-                <p className="w-full text-center text-2xl font-bold py-4 uppercase">
-                    Nyte One
-                </p>
-            </Link>
+            <Button variant={'link'} asChild>
+                <Link href={'/'}>
+                    <p className="w-full text-center text-2xl font-bold py-4 uppercase">
+                        Nyte One
+                    </p>
+                </Link>
+            </Button>
+
             <Separator />
             <NavLinks navLinks={navLinks} />
             {children}

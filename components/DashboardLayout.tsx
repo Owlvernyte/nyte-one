@@ -1,15 +1,11 @@
 'use client'
 
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import Header from './Header'
 import SideBar from './SideBar'
 import useSidebar from '@/lib/hooks/useSidebar'
 
-export default function DashboardLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+export default function DashboardLayout({ children }: PropsWithChildren) {
     const { sidebarValue } = useSidebar()
 
     return (

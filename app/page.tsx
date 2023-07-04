@@ -1,33 +1,29 @@
-import { ModeToggle } from '@/components/ModeToggle'
-import {
-    LoginButton,
-    LogoutButton,
-    ProfileButton,
-    RegisterButton,
-} from '@/components/buttons.component'
-import { Button } from '@/components/ui/button'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { ProfileButton } from '@/components/buttons.component'
 import { User } from '@/components/user.component'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
+import {
+    LoginButton,
+    LogoutButton,
+    RegisterButton,
+} from './auth/signin/auth-buttons'
+import { Button } from '@/components/ui/button'
 
 export default async function Home() {
     const session = await getServerSession(authOptions)
-    console.log(session)
 
     return (
         <div>
-            <Link href={'/dash'}>app</Link>
+            <Button asChild>
+                <Link href={'/app'}>app</Link>
+            </Button>
 
             <div>
-                <Button asChild>
+                {/* <Button asChild>
                     <Link href={'/auth/signin'}>Signin</Link>
-                </Button>
+                </Button> */}
+                <LoginButton />
                 <RegisterButton />
                 <LogoutButton />
                 <ProfileButton />

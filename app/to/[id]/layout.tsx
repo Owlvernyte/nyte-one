@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 
-function UrlLayout({ children }: { children: React.ReactNode }) {
+function UrlLayout({ children }: PropsWithChildren) {
     return <div>{children}</div>
 }
 
