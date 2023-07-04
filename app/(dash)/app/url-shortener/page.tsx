@@ -17,10 +17,12 @@ async function UrlShortener() {
         } satisfies ShortenedUrl
     })
 
+    if (!session?.user.id) return "Unauthorized";
+
     return (
         <div>
             <div className="py-4">
-                <CreateUrlForm />
+                <CreateUrlForm userId={session.user.id} />
             </div>
             <div>
                 <DataTable columns={columns} data={convertedData} />

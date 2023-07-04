@@ -19,26 +19,42 @@ import {
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
 
 const FormSchema = z.object({
-    url: z.string().min(2, {
-        message: 'Url must be at least 2 characters.',
-    }),
+    url: z
+        .string()
+        .min(2, {
+            message: 'Url must be at least 2 characters.',
+        })
+        .url({ message: 'That is not an url' }),
     customId: z
         .string()
         .min(6, {
             message: 'Custom Id must be at least 6 characters.',
         })
-        .max(50),
+        .max(50)
+        .optional(),
     direct: z.boolean().default(false).optional(),
+    userId: z.string(),
 })
 
-function CreateUrlForm() {
+export type CreateUrlFormProps = {
+    userId: string
+}
+
+function CreateUrlForm({userId}: CreateUrlFormProps) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            url: 'https://nyte.tk',
             direct: true,
+            userId: userId
         },
     })
 
@@ -60,68 +76,89 @@ function CreateUrlForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="url"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Url</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="a very long url..."
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="direct"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                                <Checkbox
-                                    checked={field.value}
-                                    // @ts-ignore
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                                <FormLabel>Use direct redirect</FormLabel>
-                                <FormDescription>
-                                    You can manage your mobile notifications in
-                                    the{' '}
-                                    <Link href="/examples/forms">
-                                        mobile settings
-                                    </Link>{' '}
-                                    page.
-                                </FormDescription>
-                            </div>
-                        </FormItem>
-                    )}
-                />
-                <div className="flex flex-row justify-between items-center space-x-2">
-                    <Button className="w-full" type="submit">
-                        Submit
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            toast({
-                                title: 'Reseted',
-                            })
-                        }}
-                        variant={'secondary'}
-                        className="w-full"
-                    >
-                        Reset
-                    </Button>
-                </div>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Card>
+                    <CardContent className="pt-4 space-y-2">
+                        <FormField
+                            control={form.control}
+                            name="url"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>URL</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            required
+                                            placeholder="your very long url..."
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="customId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Custom ID {'(optional)'}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Customize your shortened url's ID"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="direct"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            // @ts-ignore
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            Use direct redirect
+                                        </FormLabel>
+                                        <FormDescription>
+                                            When this is turned on, the
+                                            shortened url will be redirected to
+                                            the protected page before redirect
+                                            to the target url.
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+                    </CardContent>
+
+                    <CardFooter className="flex flex-row justify-between items-center space-x-2">
+                        <Button className="w-full" type="submit">
+                            Submit
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                toast({
+                                    title: 'Reseted',
+                                })
+                            }}
+                            variant={'secondary'}
+                            className="w-full"
+                        >
+                            Reset
+                        </Button>
+                    </CardFooter>
+                </Card>
             </form>
         </Form>
     )
