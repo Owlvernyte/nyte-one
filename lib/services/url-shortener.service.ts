@@ -47,10 +47,11 @@ export async function getUrlByQuery(query: string) {
 export type CreateShortenedUrlInput = {
     url: string,
     userId: string,
-    customId?: string
+    customId?: string,
+    direct?: boolean
 }
 
-export async function shortenUrl({ url, userId, customId }: CreateShortenedUrlInput) {
+export async function shortenUrl({ url, userId, direct = true, customId }: CreateShortenedUrlInput) {
     const checkedUrl = new URL(url)
 
     if (!checkedUrl) throw new Error("[URL Service/create] url validate failed");
@@ -81,8 +82,9 @@ export async function shortenUrl({ url, userId, customId }: CreateShortenedUrlIn
             }
         },
         shortenedId,
-        customId,
+        customId: checkedCustomId,
         url: checkedUrl.toString(),
+        direct
     }
 
     const createUrl = await URLS.create({

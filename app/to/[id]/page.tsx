@@ -9,64 +9,58 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    // read route params
-    const id = params.id
+    try {
+        // read route params
+        const id = params.id
 
-    const shortenedUrl = await getUrlByQuery(id)
+        const shortenedUrl = await getUrlByQuery(id)
 
-    if (!shortenedUrl)
+        if (!shortenedUrl)
+            return {
+                title: 'Nyte One | This Url does not exist',
+                description: 'Create one on Nyte One | URL Shortener!',
+            }
+
+        // fetch url's metadata
+        const urlMetadata = await getUrlMetadata(shortenedUrl.url)
+
+        if (shortenedUrl.direct) {
+            return {
+                title: urlMetadata.dcTitle,
+                description: urlMetadata.dcDescription,
+                openGraph: {
+                    images: urlMetadata.ogImage || [],
+                    title: urlMetadata.ogTitle,
+                    description: urlMetadata.ogDescription,
+                    url: urlMetadata.ogUrl,
+                    siteName: urlMetadata.ogSiteName,
+                },
+                twitter: {
+                    images: urlMetadata.twitterImage || [],
+                    title: urlMetadata.twitterTitle,
+                    description: urlMetadata.twitterDescription,
+                    card: urlMetadata.twitterCard as
+                        | 'summary'
+                        | 'summary_large_image'
+                        | 'player'
+                        | 'app'
+                        | undefined,
+                    site: urlMetadata.twitterSite,
+                    siteId: urlMetadata.twitterSiteId,
+                },
+            }
+        }
+
         return {
-            title: 'Nyte One | This Url does not exist',
+            title: `Nyte One | ${urlMetadata.dcTitle}`,
+            description: 'Handy url shortener tool by Owlvernyte!',
+        }
+    } catch (error: any) {
+        console.error(error)
+        return {
+            title: 'Nyte One',
             description: 'Create one on Nyte One | URL Shortener!',
         }
-
-    // fetch url's metadata
-    const urlMetadata = await getUrlMetadata(shortenedUrl.url)
-
-    if (shortenedUrl.direct) {
-        return {
-            title: urlMetadata.dcTitle,
-            description: urlMetadata.dcDescription,
-            openGraph: {
-                images: urlMetadata.ogImage || [],
-                title: urlMetadata.ogTitle,
-                description: urlMetadata.ogDescription,
-                url: urlMetadata.ogUrl,
-                siteName: urlMetadata.ogSiteName,
-                // type: urlMetadata.ogType as
-                //     | 'website'
-                //     | 'article'
-                //     | 'book'
-                //     | 'profile'
-                //     | 'music.song'
-                //     | 'music.album'
-                //     | 'music.playlist'
-                //     | 'music.radio_station'
-                //     | 'video.movie'
-                //     | 'video.episode'
-                //     | 'video.tv_show'
-                //     | 'video.other'
-                //     | undefined,
-            },
-            twitter: {
-                images: urlMetadata.twitterImage || [],
-                title: urlMetadata.twitterTitle,
-                description: urlMetadata.twitterDescription,
-                card: urlMetadata.twitterCard as
-                    | 'summary'
-                    | 'summary_large_image'
-                    | 'player'
-                    | 'app'
-                    | undefined,
-                site: urlMetadata.twitterSite,
-                siteId: urlMetadata.twitterSiteId,
-            },
-        }
-    }
-
-    return {
-        title: `Nyte One | ${urlMetadata.dcTitle}`,
-        description: 'Handy url shortener tool by Owlvernyte!',
     }
 }
 

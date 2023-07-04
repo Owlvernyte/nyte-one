@@ -26,8 +26,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { shortening } from './create-url-action'
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
     url: z
         .string()
         .min(2, {
@@ -49,19 +50,22 @@ export type CreateUrlFormProps = {
     userId: string
 }
 
-function CreateUrlForm({userId}: CreateUrlFormProps) {
+function CreateUrlForm({ userId }: CreateUrlFormProps) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             direct: true,
-            userId: userId
+            userId: userId,
         },
     })
+
+
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(data)
+        shortening(data)
         toast({
             title: 'You submitted the following values:',
             description: (
