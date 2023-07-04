@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -51,6 +51,8 @@ export type CreateUrlFormProps = {
 }
 
 function CreateUrlForm({ userId }: CreateUrlFormProps) {
+    const [useCustomId, setUseCustomId] = useState(false)
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -59,23 +61,24 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
         },
     })
 
-
-
     function onSubmit(data: z.infer<typeof FormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(data)
         shortening(data)
-        toast({
-            title: 'You submitted the following values:',
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(data, null, 2)}
-                    </code>
-                </pre>
-            ),
-        })
+            .then((res) => {
+                toast({
+                    title: 'Shortened url:',
+                    description: (
+                        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                            <code className="text-white">
+                                {JSON.stringify(res, null, 2)}
+                            </code>
+                        </pre>
+                    ),
+                })
+            })
+            .catch(console.error)
     }
 
     return (
@@ -105,16 +108,31 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
                             name="customId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>
-                                        Custom ID {'(optional)'}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Customize your shortened url's ID"
-                                            {...field}
+                                    <FormLabel className="space-x-2">
+                                        <Checkbox
+                                            id="useCustomId"
+                                            checked={useCustomId}
+                                            onCheckedChange={(e) => {
+                                                setUseCustomId(
+                                                    e.valueOf() as boolean
+                                                )
+                                            }}
                                         />
-                                    </FormControl>
-                                    <FormMessage />
+                                        <label htmlFor="useCustomId">
+                                            Custom ID {'(optional)'}
+                                        </label>
+                                    </FormLabel>
+                                    {useCustomId && (
+                                        <>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Customize your shortened url's ID"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </>
+                                    )}
                                 </FormItem>
                             )}
                         />
@@ -145,15 +163,19 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
                             )}
                         />
                     </CardContent>
-
                     <CardFooter className="flex flex-row justify-between items-center space-x-2">
                         <Button className="w-full" type="submit">
-                            Submit
+                            Shorten
                         </Button>
                         <Button
-                            onClick={() => {
-                                toast({
-                                    title: 'Reseted',
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setUseCustomId(false)
+                                form.reset({
+                                    url: '',
+                                    customId: undefined,
+                                    direct: true,
+                                    userId: userId,
                                 })
                             }}
                             variant={'secondary'}

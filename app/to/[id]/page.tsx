@@ -39,12 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                     images: urlMetadata.twitterImage || [],
                     title: urlMetadata.twitterTitle,
                     description: urlMetadata.twitterDescription,
-                    card: urlMetadata.twitterCard as
-                        | 'summary'
-                        | 'summary_large_image'
-                        | 'player'
-                        | 'app'
-                        | undefined,
+                    card: 'summary_large_image',
                     site: urlMetadata.twitterSite,
                     siteId: urlMetadata.twitterSiteId,
                 },
