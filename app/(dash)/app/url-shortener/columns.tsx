@@ -25,7 +25,6 @@ export type ShortenedUrl = {
     customId?: string | null
     url: string
     direct: string
-    views: number
     clicks: number
 }
 
