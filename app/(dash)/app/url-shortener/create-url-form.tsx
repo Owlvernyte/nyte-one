@@ -53,7 +53,7 @@ export type CreateUrlFormProps = {
     userId: string
 }
 
-function CreateUrlForm({ userId, shorten }: CreateUrlFormProps) {
+function CreateUrlForm({ userId }: CreateUrlFormProps) {
     const [useCustomId, setUseCustomId] = useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({
