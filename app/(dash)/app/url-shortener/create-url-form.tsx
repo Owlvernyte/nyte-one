@@ -26,7 +26,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { GetResult } from '@prisma/client/runtime'
+import { CreateShortenedUrlInput } from '@/lib/services/url-shortener.service'
 import { shortening } from './create-url-action'
+// import { shortening } from './create-url-action'
 
 export const FormSchema = z.object({
     url: z
@@ -50,7 +53,7 @@ export type CreateUrlFormProps = {
     userId: string
 }
 
-function CreateUrlForm({ userId }: CreateUrlFormProps) {
+function CreateUrlForm({ userId, shorten }: CreateUrlFormProps) {
     const [useCustomId, setUseCustomId] = useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({

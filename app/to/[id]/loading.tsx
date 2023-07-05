@@ -1,7 +1,7 @@
 import React from 'react'
 
 function LoadingUrl() {
-    return <div>LoadingUrl...</div>
+    return <div>Loading Url...</div>
 }
 
 export default LoadingUrl

@@ -5,6 +5,7 @@ import React from 'react'
 import { DataTable } from './data-table'
 import { ShortenedUrl, columns } from './columns'
 import CreateUrlForm from './create-url-form'
+import { Separator } from '@/components/ui/separator'
 
 async function UrlShortener() {
     const session = await getServerSession(authOptions)
@@ -24,6 +25,7 @@ async function UrlShortener() {
             <div className="py-4">
                 <CreateUrlForm userId={session.user.id} />
             </div>
+            <Separator/>
             <div>
                 <DataTable columns={columns} data={convertedData} />
             </div>

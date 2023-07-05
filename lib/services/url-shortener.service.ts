@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import prisma from "../db/prismaClient";
+import { prisma } from "../db/prismaClient";
 import { nanoid } from 'nanoid'
 
 const URLS = prisma.shortenedUrl
@@ -110,21 +110,6 @@ export async function updateUrlById(id: string, data: Prisma.ShortenedUrlUpdateI
             id
         },
         data: data
-    })
-
-    return result
-}
-
-export async function incViewUrlById(id: string, count: number = 1) {
-    const result = await URLS.update({
-        where: {
-            id
-        },
-        data: {
-            views: {
-                increment: count
-            }
-        }
     })
 
     return result

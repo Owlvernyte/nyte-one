@@ -15,6 +15,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { X } from 'lucide-react'
+import QuickTooltip from '@/components/QuickTooltip'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -46,7 +47,13 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
         },
         cell: ({ row }) => {
             const shortenedId = row.getValue('shortenedId') as string
-            return <Link href={`/to/${shortenedId}`}>{shortenedId}</Link>
+            return (
+                <Button className="px-0" variant={'link'} asChild>
+                    <Link target="_blank" href={`/to/${shortenedId}`}>
+                        {shortenedId}
+                    </Link>
+                </Button>
+            )
         },
     },
     {
@@ -54,7 +61,15 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
         header: 'Custom ID',
         cell: ({ row }) => {
             const customId = row.getValue('customId') as string
-            return <Link href={`/to/${customId}`}>{customId}</Link>
+            return (
+                customId && (
+                    <Button className="px-0" variant={'link'} asChild>
+                        <Link target="_blank" href={`/to/${customId}`}>
+                            {customId}
+                        </Link>
+                    </Button>
+                )
+            )
         },
     },
     {
@@ -63,25 +78,44 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
         cell: ({ row }) => {
             const url = row.getValue('url') as string
             return (
-                <a href={url} target="_blank">
-                    {url}
-                </a>
+                <Button className="px-0" variant={'link'} asChild>
+                    <Link href={url} target="_blank">
+                        {url}
+                    </Link>
+                </Button>
             )
         },
     },
     {
         accessorKey: 'direct',
-        header: 'Direct',
+        header: () => {
+            return (
+                <div className="text-center items-center justify-center font-medium">
+                    Direct
+                </div>
+            )
+        },
         cell: ({ row }) => {
             const direct = row.getValue('direct') as string
-            return direct === 'true' ? <Check /> : <X />
+            return (
+                <div className="flex text-center items-center justify-center font-medium">
+                    <QuickTooltip
+                        content={`Direct redirect ${
+                            direct === 'true' ? 'enabled' : 'disabled'
+                        }`}
+                    >
+                        {direct === 'true' ? <Check /> : <X />}
+                    </QuickTooltip>
+                </div>
+            )
         },
     },
     {
         accessorKey: 'clicks',
         header: ({ column }) => {
             return (
-                <Button
+                <div className="text-center text-medium">
+                    <Button
                     variant="ghost"
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === 'asc')
@@ -90,11 +124,20 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
                     Clicks
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
+                </div>
+            )
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-center text-medium">
+                    {row.getValue('clicks')}
+                </div>
             )
         },
     },
     {
         id: 'actions',
+        enableHiding: false,
         cell: ({ row }) => {
             const payment = row.original
 
