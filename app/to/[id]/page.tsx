@@ -1,4 +1,7 @@
-import { getUrlByQuery, incClickUrlById } from '@/lib/services/url-shortener.service'
+import {
+    getUrlByQuery,
+    incClickUrlById,
+} from '@/lib/services/url-shortener.service'
 import { Metadata as NextMetadata } from 'next'
 import React from 'react'
 
@@ -9,6 +12,8 @@ import Link from 'next/link'
 import axios from 'axios'
 import { Separator } from '@/components/ui/separator'
 import ButtonLinkClick from './button-link-click'
+import { redirect } from 'next/navigation'
+import { addClick } from './add-click'
 
 type Props = {
     params: { id: string }
@@ -76,6 +81,11 @@ async function ToUrl({ params, searchParams }: Props) {
     const shortenedUrl = await getUrlByQuery(params.id)
 
     if (!shortenedUrl) return 'Not Found'
+
+    if (shortenedUrl.direct) {
+        addClick(shortenedUrl.id)
+        return redirect(shortenedUrl.url)
+    }
 
     // const counted = await incClickUrlById(shortenedUrl.id)
 
