@@ -8,7 +8,7 @@ export default function Footer() {
             <Button variant={'link'} asChild>
                 <Link href="/">From Owlvernyte with love {'<3'}</Link>
             </Button>
-            <span>© {new Date().getFullYear()}</span>
+            <span className='px-4'>© {new Date().getFullYear()}</span>
         </footer>
     )
 }

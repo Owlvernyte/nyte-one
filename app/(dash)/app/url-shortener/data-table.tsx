@@ -63,8 +63,8 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="flex flex-col">
-            <div className="flex items-center py-4">
+        <div className="flex flex-col space-y-2">
+            <div className="flex items-center">
                 <Input
                     placeholder="Filter urls..."
                     value={
@@ -159,7 +159,7 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end space-x-2">
                 <Button
                     variant="outline"
                     size="sm"

@@ -7,6 +7,7 @@ import { ShortenedUrl, columns } from './columns'
 import CreateUrlForm from './create-url-form'
 import { Separator } from '@/components/ui/separator'
 import { Metadata } from 'next'
+import Stats from './stats'
 
 export const metadata: Metadata = {
     title: 'Nyte One | URL Shortener',
@@ -26,9 +27,10 @@ async function UrlShortener() {
     if (!session?.user.id) return 'Unauthorized'
 
     return (
-        <div>
+        <div className="flex flex-col space-y-4">
+            <Stats userId={session.user.id}/>
             <CreateUrlForm userId={session.user.id} />
-            <Separator className='mt-4' />
+            <Separator />
             <DataTable columns={columns} data={convertedData} />
         </div>
     )

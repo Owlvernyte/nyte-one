@@ -7,7 +7,7 @@ import {
     LoginButton,
     LogoutButton,
     RegisterButton,
-} from './auth/signin/auth-buttons'
+} from './auth/auth-buttons'
 import { Button } from '@/components/ui/button'
 
 export default async function Home() {

@@ -4,6 +4,29 @@ import { nanoid } from 'nanoid'
 
 const URLS = prisma.shortenedUrl
 
+export async function countUrls() {
+    const result = await URLS.count()
+    return result
+}
+
+export async function countUserUrls(userId: string) {
+    const result = await URLS.count({
+        where: {
+            userId
+        }
+    })
+    return result
+}
+
+export async function countClicks() {
+    const result = await URLS.aggregate({
+        _sum: {
+            clicks: true
+        }
+    })
+    return result._sum.clicks
+}
+
 export async function getUserUrls(userId: string) {
     const result = await URLS.findMany({
         where: {

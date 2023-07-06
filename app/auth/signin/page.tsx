@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { getProviders } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
-import { LoginButton } from './auth-buttons'
+import { LoginButton } from '../auth-buttons'
 import {
     Card,
     CardContent,
@@ -12,7 +12,12 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 
-async function SignIn() {
+type Props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+
+async function SignIn({ params, searchParams }: Props) {
     const providers = (await getProviders()) ?? []
 
     return (
