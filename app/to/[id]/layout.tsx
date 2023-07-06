@@ -5,7 +5,7 @@ import React, { PropsWithChildren } from 'react'
 
 function UrlLayout({ children }: PropsWithChildren) {
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-screen">
             <header className="border-b-[0.5px] border-b-black/10 dark:border-b-white/10 min-h-fit p-2 flex flex-row justify-between items-center">
                 <div className="flex flex-row items-center justify-center space-x-2">
                     <Button variant={'link'} asChild>

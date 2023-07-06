@@ -16,6 +16,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { X } from 'lucide-react'
 import QuickTooltip from '@/components/QuickTooltip'
+import { QRCanvas } from 'qrcanvas-react'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -115,14 +125,14 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
             return (
                 <div className="text-center text-medium">
                     <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === 'asc')
-                    }
-                >
-                    Clicks
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                        variant="ghost"
+                        onClick={() =>
+                            column.toggleSorting(column.getIsSorted() === 'asc')
+                        }
+                    >
+                        Clicks
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
                 </div>
             )
         },
@@ -141,40 +151,60 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
             const payment = row.original
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(
-                                    payment.shortenedId
-                                )
-                            }
-                        >
-                            Copy shortened link
-                        </DropdownMenuItem>
-                        {payment.customId && (
+                <Dialog>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem
                                 onClick={() =>
                                     navigator.clipboard.writeText(
-                                        payment.customId as string
+                                        payment.shortenedId
                                     )
                                 }
                             >
-                                Copy custom link
+                                Copy shortened link
                             </DropdownMenuItem>
-                        )}
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Share</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            {payment.customId && (
+                                <DropdownMenuItem
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            payment.customId as string
+                                        )
+                                    }
+                                >
+                                    Copy custom link
+                                </DropdownMenuItem>
+                            )}
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem>QR Code</DropdownMenuItem>
+                            </DialogTrigger>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>Share</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent>
+                        <DialogHeader className={'p-4'}>
+                            <QRCanvas
+                                options={{
+                                    cellSize: 16,
+                                    padding: 16,
+                                    data: `https://nyte.tk/to/${
+                                        row.getValue('customId') ||
+                                        row.getValue('shortenedId') ||
+                                        ''
+                                    }`,
+                                }}
+                            />
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
             )
         },
     },

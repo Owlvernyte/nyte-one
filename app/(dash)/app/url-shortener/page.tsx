@@ -6,6 +6,11 @@ import { DataTable } from './data-table'
 import { ShortenedUrl, columns } from './columns'
 import CreateUrlForm from './create-url-form'
 import { Separator } from '@/components/ui/separator'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Nyte One | URL Shortener',
+}
 
 async function UrlShortener() {
     const session = await getServerSession(authOptions)
@@ -18,17 +23,13 @@ async function UrlShortener() {
         } satisfies ShortenedUrl
     })
 
-    if (!session?.user.id) return "Unauthorized";
+    if (!session?.user.id) return 'Unauthorized'
 
     return (
         <div>
-            <div className="py-4">
-                <CreateUrlForm userId={session.user.id} />
-            </div>
-            <Separator/>
-            <div>
-                <DataTable columns={columns} data={convertedData} />
-            </div>
+            <CreateUrlForm userId={session.user.id} />
+            <Separator className='mt-4' />
+            <DataTable columns={columns} data={convertedData} />
         </div>
     )
 }
