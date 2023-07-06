@@ -12,8 +12,8 @@ export const authOptions: NextAuthOptions = {
     },
     providers: [
         DiscordProvider({
-            clientId: process.env.DISCORD_CLIENT_ID as string,
-            clientSecret: process.env.DISCORD_CLIENT_SECRET as string
+            clientId: process.env.AUTH_DISCORD__ID as string,
+            clientSecret: process.env.AUTH_DISCORD_SECRET as string
         })
     ],
     callbacks: {
