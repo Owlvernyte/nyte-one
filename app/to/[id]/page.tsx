@@ -118,7 +118,6 @@ async function getUrlMetadata(url: string) {
 
     const data = await ogs({
         html: parsedHtml,
-        url: fetched.url,
     })
 
     const { error, html, result, response } = data
