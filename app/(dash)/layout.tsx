@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     const { sidebarValue } = useSidebar()
 
     return (
-        <div className="h-full flex sm:flex-row flex-col">
+        <div className="min-h-screen h-full flex sm:flex-row flex-col">
             {sidebarValue && <SideBar />}
             <div className="flex-1 flex flex-col">
                 <Header />
