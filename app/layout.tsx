@@ -23,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 <link rel="shortcut icon" href="./favicon.svg" />
             </head>
             <body
-                className={`min-h-screen bg-background font-sans antialiased`}
+                className={`h-screen bg-background font-sans antialiased overflow-hidden`}
             >
                 <NextAuthProvider>
                     <StoreProvider>
