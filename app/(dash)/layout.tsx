@@ -1,7 +1,9 @@
 'use client'
 
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import SideBar from '@/components/SideBar'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import useSidebar from '@/lib/hooks/useSidebar'
 import React, { PropsWithChildren } from 'react'
 
@@ -9,11 +11,12 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     const { sidebarValue } = useSidebar()
 
     return (
-        <div className="min-h-screen h-screen max-h-screen flex flex-row">
+        <div className="h-full flex sm:flex-row flex-col">
             {sidebarValue && <SideBar />}
-            <div className="h-screen flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col">
                 <Header />
-                <main className="h-full flex-1 p-2 overflow-auto">{children}</main>
+                <main className="flex-1 p-2">{children}</main>
+                <Footer />
             </div>
         </div>
     )
