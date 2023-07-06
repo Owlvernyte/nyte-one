@@ -152,9 +152,9 @@ dependencies:
   postcss:
     specifier: 8.4.24
     version: 8.4.24
-  qrcanvas-react:
-    specifier: ^2.0.2
-    version: 2.0.2(react-dom@18.2.0)(react@18.2.0)
+  qrcanvas:
+    specifier: ^3.1.2
+    version: 3.1.2
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -1940,14 +1940,6 @@ packages:
     resolution: {integrity: sha512-2et4PDvg6PVCyS7fuTc4gPoksV58bW0RwSxWKcPRcHZf0PRUGq03TKcD/rUHe3azfV6/5/biUBJw+HhCQjaP0A==}
     dependencies:
       '@types/react': 18.2.14
-    dev: false
-
-  /@types/react@16.14.43:
-    resolution: {integrity: sha512-7zdjv7jvoLLQg1tTvpQsm+hyNUMT2mPlNV1+d0I8fbGhkJl82spopMyBlu4wb1dviZAxpGdk5eHu/muacknnfw==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.3
-      csstype: 3.1.2
     dev: false
 
   /@types/react@18.2.14:
@@ -4153,19 +4145,6 @@ packages:
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
-    dev: false
-
-  /qrcanvas-react@2.0.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-xabYBo6sxIlnYwSJz0nYdpzqV8IYc5TBVCGTGI5W/yEaKCOYzWs4IcpGQApVRIQdFwLQbczorO0IbN/v0jsPjA==}
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    dependencies:
-      '@babel/runtime': 7.22.5
-      '@types/react': 16.14.43
-      qrcanvas: 3.1.2
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /qrcanvas@3.1.2:

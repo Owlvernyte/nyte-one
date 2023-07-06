@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { X } from 'lucide-react'
 import QuickTooltip from '@/components/QuickTooltip'
-import { QRCanvas } from 'qrcanvas-react'
 import {
     Dialog,
     DialogContent,
@@ -26,6 +25,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
+import QRCanvas from '@/components/QRCanvas'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
