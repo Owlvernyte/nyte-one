@@ -13,11 +13,20 @@ import {
     DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import Link from 'next/link'
+import { LogIn } from 'lucide-react'
 
 export default function UserNav() {
     const { data: session } = useSession()
 
-    if (!session) return null;
+    if (!session)
+        return (
+            <Button asChild>
+                <Link href={'/auth/signin'}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Sign in
+                </Link>
+            </Button>
+        )
 
     return (
         <DropdownMenu>
@@ -51,15 +60,9 @@ export default function UserNav() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                        <Link href='/profile'>Profile</Link>
+                        <Link href="/profile">Profile</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>New Team</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>

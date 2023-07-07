@@ -166,7 +166,7 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
                             )}
                         />
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center space-x-2">
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-x-2">
                         <Button className="w-full" type="submit">
                             Shorten
                         </Button>

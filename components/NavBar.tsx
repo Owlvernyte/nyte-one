@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Separator } from './ui/separator'
 import Link from 'next/link'
@@ -12,45 +14,17 @@ import {
     navigationMenuTriggerStyle,
 } from './ui/navigation-menu'
 import { cn } from '@/lib/utils'
-
-export type NavLink = {
-    href: string
-    title: string
-}
-
-export const navLinks: NavLink[] = [
-    {
-        title: 'Dashboard',
-        href: '/app',
-    },
-    {
-        title: 'Profile',
-        href: '/profile',
-    },
-]
-
-const components: { title: string; href: string; description: string }[] = [
-    {
-        title: 'Waiting Page',
-        href: '/app',
-        description: 'Waiting for you to pick an app.',
-    },
-    {
-        title: 'URL Shortener',
-        href: '/app/url-shortener',
-        description: 'A modern url shortener.',
-    },
-]
+import { NavLink, appsNavLink, navLinks } from '@/lib/data/navLinks'
 
 function NavBar({ children }: { children?: React.ReactNode }) {
     return (
-        <NavigationMenu>
+        <NavigationMenu className="hidden sm:flex">
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>Apps</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {components.map((component) => (
+                            {appsNavLink.map((component) => (
                                 <ListItem
                                     key={component.title}
                                     title={component.title}
@@ -62,7 +36,6 @@ function NavBar({ children }: { children?: React.ReactNode }) {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-
                 <NavLinks navLinks={navLinks} />
                 {children}
             </NavigationMenuList>
@@ -100,7 +73,7 @@ const ListItem = React.forwardRef<
 })
 ListItem.displayName = 'ListItem'
 
-function NavLinks({ navLinks }: { navLinks: NavLink[] }) {
+export function NavLinks({ navLinks }: { navLinks: NavLink[] }) {
     return (
         <>
             {navLinks.map((v, i) => {

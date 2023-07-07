@@ -24,7 +24,19 @@ export async function countClicks() {
             clicks: true
         }
     })
-    return result._sum.clicks
+    return result._sum.clicks || 0
+}
+
+export async function countUserClicks(userId: string) {
+    const result = await URLS.aggregate({
+        where: {
+            userId
+        },
+        _sum: {
+            clicks: true
+        }
+    })
+    return result._sum.clicks || 0
 }
 
 export async function getUserUrls(userId: string) {

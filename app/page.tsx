@@ -1,38 +1,21 @@
+'use client'
+
 import { ProfileButton } from '@/components/buttons.component'
-import { User } from '@/components/user.component'
-import { authOptions } from '@/lib/auth'
-import { getServerSession } from 'next-auth'
 import Link from 'next/link'
-import {
-    LoginButton,
-    LogoutButton,
-    RegisterButton,
-} from './auth/auth-buttons'
 import { Button } from '@/components/ui/button'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default async function Home() {
-    const session = await getServerSession(authOptions)
-
     return (
-        <div>
-            <Button asChild>
-                <Link href={'/app'}>app</Link>
-            </Button>
-
-            <div>
-                {/* <Button asChild>
-                    <Link href={'/auth/signin'}>Signin</Link>
-                </Button> */}
-                <LoginButton />
-                <RegisterButton />
-                <LogoutButton />
-                <ProfileButton />
-
-                <h1>Server Session</h1>
-                <p className="break-all">{JSON.stringify(session)}</p>
-
-                <User />
+        <div className="min-h-screen h-full flex flex-col">
+            <Header />
+            <div className="flex-1 p-2 flex flex-col justify-center items-center">
+                <Button asChild>
+                    <Link href={'/app'}>Getting started</Link>
+                </Button>
             </div>
+            <Footer />
         </div>
     )
 }

@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     const { sidebarValue } = useSidebar()
 
     return (
-        <div className="min-h-screen h-full flex flex-col px-2">
+        <div className="min-h-screen h-full flex flex-col">
             <Header />
             <main className="flex-1 p-2">{children}</main>
             <Footer />
