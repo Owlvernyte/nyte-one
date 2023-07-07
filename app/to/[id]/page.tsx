@@ -12,7 +12,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { Separator } from '@/components/ui/separator'
 import ButtonLinkClick from './button-link-click'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { addClick } from './add-click'
 
 type Props = {
@@ -80,7 +80,7 @@ export async function generateMetadata({
 async function ToUrl({ params, searchParams }: Props) {
     const shortenedUrl = await getUrlByQuery(params.id)
 
-    if (!shortenedUrl) return 'Not Found'
+    if (!shortenedUrl) return notFound()
 
     if (shortenedUrl.direct) {
         addClick(shortenedUrl.id)
