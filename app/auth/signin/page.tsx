@@ -18,7 +18,6 @@ type Props = {
 }
 
 async function SignIn({ params, searchParams }: Props) {
-    const providers = (await getProviders()) ?? []
 
     return (
         <Card className="w-[350px]">
@@ -36,19 +35,8 @@ async function SignIn({ params, searchParams }: Props) {
             <CardContent>
                 <div className="flex flex-col space-y-2">
                     <LoginButton provider={'discord'} />
-                    {Object.values(providers).map((provider) => (
-                        <LoginButton
-                            provider={provider.id}
-                            key={provider.name}
-                        />
-                    ))}
                 </div>
             </CardContent>
-            {/* <CardFooter>
-                <Button asChild>
-                    <Link href="/">Back to home</Link>
-                </Button>
-            </CardFooter> */}
         </Card>
     )
 }

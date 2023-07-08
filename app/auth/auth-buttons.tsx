@@ -12,7 +12,7 @@ export const LoginButton = ({
     provider?: LiteralUnion<BuiltInProviderType>
 } & ButtonProps) => {
     return (
-        <Button onClick={() => signIn(provider)} {...props}>
+        <Button className='capitalize' onClick={() => signIn(provider)} {...props}>
             Sign in{provider && ` with ${provider}`}
         </Button>
     )
