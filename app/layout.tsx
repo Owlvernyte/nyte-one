@@ -10,13 +10,14 @@ export const metadata: Metadata = {
         width: 'device-width',
         initialScale: 1,
     },
+    icons: [{ rel: "icon", url: "/favicon.svg" }]
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <link rel="shortcut icon" href="./favicon.svg" />
+                <link rel="shortcut icon" href="/favicon.svg" />
             </head>
             <body>
                 <Providers>{children}</Providers>
