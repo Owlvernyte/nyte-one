@@ -27,11 +27,19 @@ async function UrlShortener() {
     if (!session?.user.id) return 'Unauthorized'
 
     return (
-        <div className="flex flex-col space-y-4">
-            <Stats userId={session.user.id}/>
-            <CreateUrlForm userId={session.user.id} />
-            <Separator />
-            <DataTable columns={columns} data={convertedData} />
+        <div className="flex flex-col space-y-4 max-w-screen">
+            <div>
+                <Stats userId={session.user.id} />
+            </div>
+            <div>
+                <CreateUrlForm userId={session.user.id} />
+            </div>
+            <div className="hidden sm:flex">
+                <Separator />
+            </div>
+            <div className="hidden md:block w-full">
+                <DataTable columns={columns} data={convertedData} />
+            </div>
         </div>
     )
 }

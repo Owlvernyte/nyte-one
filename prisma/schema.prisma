@@ -64,7 +64,7 @@ model VerificationToken {
 
 model ShortenedUrl {
     id          String  @id @default(cuid())
-    shortenedId String
+    shortenedId String  @unique
     customId    String? @unique
     url         String
     direct      Boolean @default(true)

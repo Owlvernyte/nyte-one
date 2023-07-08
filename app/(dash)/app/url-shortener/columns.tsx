@@ -26,6 +26,20 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog'
 import QRCanvas from '@/components/QRCanvas'
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet'
+import { toggleDirect } from './actions'
+import { toast } from '@/components/ui/use-toast'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -109,11 +123,32 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
             return (
                 <div className="flex text-center items-center justify-center font-medium">
                     <QuickTooltip
-                        content={`Direct redirect ${
-                            direct === 'true' ? 'enabled' : 'disabled'
+                        content={`Click to ${
+                            direct === 'true' ? 'disable' : 'enable'
                         }`}
                     >
-                        {direct === 'true' ? <Check /> : <X />}
+                        <Button
+                            onClick={() => {
+                                toggleDirect(
+                                    row.getValue('shortenedId'),
+                                    direct === 'true' ? true : false
+                                )
+                                    .then((res) => {
+                                        toast({
+                                            description: `Direct mode ${
+                                                res.direct
+                                                    ? 'enabled'
+                                                    : 'disabled'
+                                            }`,
+                                        })
+                                    })
+                                    .catch(console.error)
+                            }}
+                            variant={'ghost'}
+                            size={'icon'}
+                        >
+                            {direct === 'true' ? <Check /> : <X />}
+                        </Button>
                     </QuickTooltip>
                 </div>
             )
@@ -147,8 +182,12 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
     {
         id: 'actions',
         enableHiding: false,
+        enableSorting: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const data = row.original
+            const shortenedUrl = `https://nyte.tk/to/${
+                data.customId || data.shortenedId
+            }`
 
             return (
                 <Dialog>
@@ -162,30 +201,68 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem
-                                onClick={() =>
-                                    navigator.clipboard.writeText(
-                                        payment.shortenedId
-                                    )
-                                }
+                                onClick={() => {
+                                    navigator.clipboard.writeText(shortenedUrl)
+                                    alert('Copied!')
+                                }}
                             >
-                                Copy shortened link
+                                Copy url
                             </DropdownMenuItem>
-                            {payment.customId && (
-                                <DropdownMenuItem
-                                    onClick={() =>
-                                        navigator.clipboard.writeText(
-                                            payment.customId as string
-                                        )
-                                    }
-                                >
-                                    Copy custom link
-                                </DropdownMenuItem>
-                            )}
                             <DialogTrigger asChild>
                                 <DropdownMenuItem>QR Code</DropdownMenuItem>
                             </DialogTrigger>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                                </SheetTrigger>
+                                <SheetContent>
+                                    <SheetHeader>
+                                        <SheetTitle>Edit URL</SheetTitle>
+                                        <SheetDescription>
+                                            {
+                                                "Make changes to your profile here. Click save when you're done."
+                                            }
+                                        </SheetDescription>
+                                    </SheetHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="name"
+                                                className="text-right"
+                                            >
+                                                Name
+                                            </Label>
+                                            <Input
+                                                id="name"
+                                                value="Pedro Duarte"
+                                                className="col-span-3"
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="username"
+                                                className="text-right"
+                                            >
+                                                Username
+                                            </Label>
+                                            <Input
+                                                id="username"
+                                                value="@peduarte"
+                                                className="col-span-3"
+                                            />
+                                        </div>
+                                    </div>
+                                    <SheetFooter>
+                                        <SheetClose asChild>
+                                            <Button type="submit">
+                                                Save changes
+                                            </Button>
+                                        </SheetClose>
+                                    </SheetFooter>
+                                </SheetContent>
+                            </Sheet>
                             <DropdownMenuItem>Share</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

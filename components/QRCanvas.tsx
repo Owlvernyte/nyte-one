@@ -6,10 +6,6 @@ import { qrcanvas, QRCanvasOptions } from 'qrcanvas'
 function QRCanvas(props: { options: QRCanvasOptions }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
-    // React.useEffect(() => {
-    //     update()
-    // },[])
-
     React.useEffect(() => {
         update()
     }, [canvasRef, props])

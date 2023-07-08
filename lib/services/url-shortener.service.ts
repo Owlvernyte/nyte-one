@@ -150,6 +150,17 @@ export async function updateUrlById(id: string, data: Prisma.ShortenedUrlUpdateI
     return result
 }
 
+export async function updateUrlByShortenedId(shortenedId: string, data: Prisma.ShortenedUrlUpdateInput) {
+    const result = await URLS.update({
+        where: {
+            shortenedId
+        },
+        data: data
+    })
+
+    return result
+}
+
 export async function incClickUrlById(id: string, count: number = 1) {
     const result = await URLS.update({
         where: {

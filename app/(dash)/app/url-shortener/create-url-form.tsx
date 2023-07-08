@@ -26,10 +26,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { GetResult } from '@prisma/client/runtime'
-import { CreateShortenedUrlInput } from '@/lib/services/url-shortener.service'
-import { shortening } from './create-url-action'
-// import { shortening } from './create-url-action'
+import { ToastAction } from '@/components/ui/toast'
+import { shortening } from './actions'
 
 export const FormSchema = z.object({
     url: z
@@ -64,22 +62,53 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
         },
     })
 
+    function resetForm() {
+        setUseCustomId(false)
+        form.reset({
+            url: '',
+            customId: undefined,
+            direct: true,
+            userId: userId,
+        })
+    }
+
     function onSubmit(data: z.infer<typeof FormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(data)
         shortening(data)
             .then((res) => {
+                const shortenedUrl = `https://nyte.tk/to/${
+                    res.customId || res.shortenedId
+                }`
                 toast({
-                    title: 'Shortened url:',
+                    title: 'Copied your shortened url:',
                     description: (
-                        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                            <code className="text-white">
-                                {JSON.stringify(res, null, 2)}
-                            </code>
+                        <pre
+                            className="mt-2 w-fit rounded-md bg-slate-950 p-4 cursor-pointer hover:bg-slate-950/50"
+                            onClick={() => {
+                                navigator.clipboard.writeText(shortenedUrl)
+                                alert('Copied!')
+                            }}
+                        >
+                            <code className="text-white">{shortenedUrl}</code>
                         </pre>
                     ),
+                    action: (
+                        <ToastAction
+                            onClick={(e) => {
+                                e.preventDefault()
+                                navigator.clipboard.writeText(shortenedUrl)
+                                alert('Copied!')
+                            }}
+                            altText="Copy"
+                        >
+                            Copy
+                        </ToastAction>
+                    ),
                 })
+                navigator.clipboard.writeText(shortenedUrl)
+                resetForm()
             })
             .catch(console.error)
     }
@@ -167,19 +196,19 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
                         />
                     </CardContent>
                     <CardFooter className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-x-2">
-                        <Button className="w-full" type="submit">
-                            Shorten
+                        <Button
+                            className="w-full"
+                            type="submit"
+                            disabled={form.formState.isSubmitting}
+                        >
+                            {form.formState.isSubmitting
+                                ? 'Submitting...'
+                                : 'Shorten'}
                         </Button>
                         <Button
                             onClick={(e) => {
                                 e.preventDefault()
-                                setUseCustomId(false)
-                                form.reset({
-                                    url: '',
-                                    customId: undefined,
-                                    direct: true,
-                                    userId: userId,
-                                })
+                                resetForm()
                             }}
                             variant={'secondary'}
                             className="w-full"

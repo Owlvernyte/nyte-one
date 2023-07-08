@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="flex flex-col space-y-2">
-            <div className="flex items-center">
+            <div className="flex items-center flex-col sm:flex-row space-y-2">
                 <Input
                     placeholder="Filter urls..."
                     value={
@@ -77,11 +77,11 @@ export function DataTable<TData, TValue>({
                             .getColumn('url')
                             ?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="w-full sm:max-w-sm"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
+                        <Button variant="outline" className="w-full sm:w-fit sm:ml-auto">
                             Columns
                         </Button>
                     </DropdownMenuTrigger>
@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border flex-1">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
