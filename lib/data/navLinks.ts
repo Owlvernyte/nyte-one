@@ -16,7 +16,8 @@ export const appsNavLink: NavLink[] = [
         title: 'URL Shortener',
         href: '/app/url-shortener',
         description: 'A modern url shortener.',
-    },{
+    },
+    {
         title: 'QR Maker',
         href: '/app/qr-maker',
         description: 'Make your own beautiful QR Code.',
