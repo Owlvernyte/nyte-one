@@ -3,15 +3,21 @@
 import React from 'react'
 import { qrcanvas, QRCanvasOptions } from 'qrcanvas'
 
-function QRCanvas(props: { options: QRCanvasOptions }) {
-    const canvasRef = React.useRef<HTMLCanvasElement>(null)
+function QRCanvas({
+    options,
+    ...props
+}: {
+    options: QRCanvasOptions
+    [key: string]: any
+}) {
+    const canvasRef = React.useRef<HTMLCanvasElement>(options.canvas || null)
 
     React.useEffect(() => {
         update()
-    }, [canvasRef, props])
+    }, [canvasRef, options])
 
     function update() {
-        let { options } = props
+        // let { options } = props
         if (canvasRef.current) {
             options = {
                 ...options,
@@ -22,7 +28,7 @@ function QRCanvas(props: { options: QRCanvasOptions }) {
         qrcanvas(options)
     }
 
-    return <canvas ref={canvasRef} />
+    return <canvas ref={canvasRef} {...props} />
 }
 
 export default QRCanvas

@@ -9,11 +9,13 @@ import { appsNavLink } from '@/lib/data/navLinks'
 import Link from 'next/link'
 import React from 'react'
 import AppStats from './app-stats'
+import { TypoH2 } from '@/components/typography'
 
 function Tools() {
     return (
         <div className="grid gap-4">
             <AppStats />
+            <TypoH2>Apps</TypoH2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {appsNavLink.map((v, i) => {
                     return (
