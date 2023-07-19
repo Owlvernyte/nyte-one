@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import QRCanvas from '@/components/QRCanvas'
@@ -64,7 +63,7 @@ function QrMaker() {
     const [previewImage, setPreviewImage] = useState<CanvasImageSource>()
     const [selectedFile, setSelectedFile] = useState<File>()
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const logoImgRef = useRef<HTMLImageElement>(new Image())
+    const logoImgRef = useRef<HTMLImageElement>(null)
     const [options, setOptions] = useState<QRCanvasOptions>(DEFAULT_OPTIONS)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -268,11 +267,12 @@ function QrMaker() {
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent>
-                                        {selectedFile && (
-                                            <img
-                                                className="w-fit p-4"
+                                        {selectedFile && previewImageSrc.length && (
+                                            <NextImage
+                                                // className="w-fit p-4"
                                                 alt="logo"
                                                 src={previewImageSrc}
+                                                fill
                                             />
                                         )}
                                         <Input
