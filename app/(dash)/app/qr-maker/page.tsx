@@ -29,6 +29,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 const DEFAULT_OPTIONS: QRCanvasOptions = {
     background: 'white',
@@ -106,6 +107,19 @@ function QrMaker() {
     const resetLogo = () => {
         setPreviewImage(undefined)
         setPreviewImageSrc('')
+    }
+
+    const saveQrCode = () => {
+        const canvasSave = document.getElementById(
+            'saveCanvas'
+        ) as HTMLCanvasElement
+        if (!canvasSave) return
+        const d = canvasSave
+            .toDataURL('image/png')
+            .replace('image/png', 'image/octet-stream')
+        const w = window.open('about:blank', 'image from canvas')
+        if (!w) return
+        w.document.write("<img src='" + d + "' alt='from canvas'/>")
     }
 
     return (
@@ -243,7 +257,10 @@ function QrMaker() {
                     </FormItem> */}
 
                     {useLogo && (
-                        <Tabs defaultValue="image" className="mt-4 w-full">
+                        <Tabs
+                            defaultValue="image"
+                            className="mt-4 w-full static"
+                        >
                             <TabsList className="grid w-full grid-cols-2">
                                 <TabsTrigger
                                     value="image"
@@ -267,14 +284,16 @@ function QrMaker() {
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent>
-                                        {selectedFile && previewImageSrc.length && (
-                                            <NextImage
-                                                // className="w-fit p-4"
-                                                alt="logo"
-                                                src={previewImageSrc}
-                                                fill
-                                            />
-                                        )}
+                                        {selectedFile &&
+                                            previewImageSrc.length && (
+                                                <div className="w-full h-full p-4 my-2 border-2">
+                                                    <img
+                                                        className="w-fit"
+                                                        alt="logo"
+                                                        src={previewImageSrc}
+                                                    />
+                                                </div>
+                                            )}
                                         <Input
                                             type="file"
                                             accept="image/png, image/jpeg"
@@ -310,8 +329,9 @@ function QrMaker() {
                     )}
                 </Form>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 space-y-4">
                 <QRCanvas
+                    id="saveCanvas"
                     options={{
                         ...options,
                         cellSize: form.watch('size') || 16,
@@ -328,6 +348,7 @@ function QrMaker() {
                     }}
                     className="border"
                 />
+                <Button onClick={saveQrCode}>Open as image</Button>
             </div>
         </div>
     )
