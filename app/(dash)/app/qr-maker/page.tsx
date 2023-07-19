@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import QRCanvas from '@/components/QRCanvas'
@@ -19,6 +20,16 @@ import { Slider } from '@/components/ui/slider'
 import { QRCanvasOptions } from 'qrcanvas'
 import { Checkbox } from '@/components/ui/checkbox'
 import NextImage from 'next/image'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
 
 const DEFAULT_OPTIONS: QRCanvasOptions = {
     background: 'white',
@@ -44,19 +55,16 @@ const formSchema = z.object({
     padding: z.number().min(0).max(40).default(2),
     effectType: z.enum([`round`, `fusion`, `spot`, 'none']).default('none'),
     effectValue: z.number().min(0).max(100),
-    addLogo: z.boolean().default(false).optional(),
-    logoText: z.boolean().default(false).optional(),
-    logo: z
-        .object({
-            imageRef: z.custom<HTMLImageElement>().optional(),
-            text: z.string().optional(),
-        })
-        .optional(),
 })
 
 function QrMaker() {
+    const [useLogo, setUseLogo] = useState<boolean>(false)
+    const [useLogoWithText, setUseLogoWithText] = useState<boolean>(false)
+    const [previewImageSrc, setPreviewImageSrc] = useState<string>('')
+    const [previewImage, setPreviewImage] = useState<CanvasImageSource>()
+    const [selectedFile, setSelectedFile] = useState<File>()
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const logoImgRef = useRef<HTMLImageElement>(null)
+    const logoImgRef = useRef<HTMLImageElement>(new Image())
     const [options, setOptions] = useState<QRCanvasOptions>(DEFAULT_OPTIONS)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -75,6 +83,31 @@ function QrMaker() {
             canvas: canvasRef.current || undefined,
         })
     }, [])
+
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreviewImage(undefined)
+            setPreviewImageSrc('')
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile)
+        setPreviewImageSrc(objectUrl)
+        setPreviewImage(() => {
+            const image = new Image()
+            image.src = objectUrl
+            return image
+        })
+        //  logoImgRef.current.
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
+
+    const resetLogo = () => {
+        setPreviewImage(undefined)
+        setPreviewImageSrc('')
+    }
 
     return (
         <div className="flex flex-col md:flex-row space-x-4 container">
@@ -106,6 +139,7 @@ function QrMaker() {
                                 <FormControl>
                                     <Slider
                                         defaultValue={[field.value]}
+                                        // @ts-ignore
                                         onValueChange={field.onChange}
                                         max={40}
                                         min={8}
@@ -128,6 +162,7 @@ function QrMaker() {
                                 <FormControl>
                                     <Slider
                                         defaultValue={[field.value]}
+                                        // @ts-ignore
                                         onValueChange={field.onChange}
                                         max={40}
                                         min={0}
@@ -150,6 +185,7 @@ function QrMaker() {
                                 </FormLabel>
                                 <FormControl>
                                     <RadioGroup
+                                        // @ts-ignore
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
                                         className="flex flex-col space-y-1 pb-4"
@@ -175,6 +211,7 @@ function QrMaker() {
                                 <FormControl>
                                     <Slider
                                         defaultValue={[field.value]}
+                                        // @ts-ignore
                                         onValueChange={field.onChange}
                                         max={100}
                                         step={1}
@@ -185,58 +222,92 @@ function QrMaker() {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="addLogo"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <div className="space-y-1 leading-none">
-                                    <FormLabel>Add Logo</FormLabel>
-                                </div>
-                            </FormItem>
-                        )}
-                    />
-                    {form.watch('addLogo') && (
-                        <FormField
-                            control={form.control}
-                            name="logoText"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
+                    <div
+                        className="flex items-center space-x-2"
+                        onClick={() => setUseLogo(!useLogo)}
+                    >
+                        <Switch id="airplane-mode" checked={useLogo} />
+                        <Label htmlFor="airplane-mode">Use Logo</Label>
+                    </div>
+                    {/* <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormControl>
+                            <Checkbox
+                                checked={addLogo}
+                                onCheckedChange={() => {
+                                    setAddLogo(!addLogo)
+                                }}
+                            />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                            <FormLabel>Add Logo</FormLabel>
+                        </div>
+                    </FormItem> */}
+
+                    {useLogo && (
+                        <Tabs defaultValue="image" className="mt-4 w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger
+                                    value="image"
+                                    onClick={() => resetLogo()}
+                                >
+                                    Image
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="text"
+                                    onClick={() => resetLogo()}
+                                >
+                                    Text
+                                </TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="image">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Image</CardTitle>
+                                        <CardDescription>
+                                            Use an Image as logo
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {selectedFile && (
+                                            <img
+                                                className="w-fit p-4"
+                                                alt="logo"
+                                                src={previewImageSrc}
+                                            />
+                                        )}
+                                        <Input
+                                            type="file"
+                                            accept="image/png, image/jpeg"
+                                            onChange={(e) => {
+                                                e.preventDefault()
+                                                if (
+                                                    e.target.files &&
+                                                    e.target.files.length !== 0
+                                                ) {
+                                                    setSelectedFile(
+                                                        e.target.files[0]
+                                                    )
+                                                }
+                                            }}
                                         />
-                                    </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>Add Logo</FormLabel>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                            <TabsContent value="text">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Text</CardTitle>
+                                        <CardDescription>
+                                            Use text as logo
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Input type="text" />
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                        </Tabs>
                     )}
-                    <FormControl>
-                        <Input
-                            type="file"
-                            accept="image/png, image/jpeg"
-                            onChange={(e) => {
-                                e.preventDefault()
-                                if (
-                                    e.target.files &&
-                                    e.target.files.length !== 0
-                                ) {
-                                    logoImgRef.current.src =
-                                        URL.createObjectURL(e.target.files[0])
-                                }
-                            }}
-                        />
-                    </FormControl>
                 </Form>
             </div>
             <div className="flex-1">
@@ -250,6 +321,9 @@ function QrMaker() {
                         effect: {
                             type: form.watch('effectType') || 'none',
                             value: form.watch('effectValue') / 100,
+                        },
+                        logo: {
+                            image: previewImage,
                         },
                     }}
                     className="border"
@@ -269,25 +343,5 @@ function EffectFormRadioGroupItem({ value }: { value: string }) {
             </FormControl>
             <FormLabel className="font-normal capitalize">{value}</FormLabel>
         </FormItem>
-    )
-}
-
-function AddLogoFormField({
-    logoText,
-    form,
-}: {
-    logoText: boolean
-    form: any
-}) {
-    return (
-        <>
-            <NextImage
-                ref={logoImgRef}
-                alt="logo"
-                src={logoImgRef.current?.src || ''}
-                fill
-            />
-            <FormField  />
-        </>
     )
 }
