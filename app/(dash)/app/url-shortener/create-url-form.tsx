@@ -185,7 +185,7 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
                                             Use direct redirect
                                         </FormLabel>
                                         <FormDescription>
-                                            When this is turned on, the
+                                            When this is turned off, the
                                             shortened url will be redirected to
                                             the protected page before redirect
                                             to the target url.
