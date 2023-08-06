@@ -72,7 +72,7 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
             const shortenedId = row.getValue('shortenedId') as string
             return (
                 <Button className="px-0" variant={'link'} asChild>
-                    <Link target="_blank" href={`/to/${shortenedId}`}>
+                    <Link target="_blank" href={`${shortenedId}`}>
                         {shortenedId}
                     </Link>
                 </Button>
@@ -87,7 +87,7 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
             return (
                 customId && (
                     <Button className="px-0" variant={'link'} asChild>
-                        <Link target="_blank" href={`/to/${customId}`}>
+                        <Link target="_blank" href={`/${customId}`}>
                             {customId}
                         </Link>
                     </Button>
@@ -185,7 +185,7 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
         enableSorting: false,
         cell: ({ row }) => {
             const data = row.original
-            const shortenedUrl = `https://nyte.tk/to/${
+            const shortenedUrl = `https://nyte.tk/${
                 data.customId || data.shortenedId
             }`
 
@@ -272,7 +272,7 @@ export const columns: ColumnDef<ShortenedUrl>[] = [
                                 options={{
                                     cellSize: 16,
                                     padding: 16,
-                                    data: `https://nyte.tk/to/${
+                                    data: `https://nyte.tk/${
                                         row.getValue('customId') ||
                                         row.getValue('shortenedId') ||
                                         ''

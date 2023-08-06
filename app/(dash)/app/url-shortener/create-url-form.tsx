@@ -78,7 +78,7 @@ function CreateUrlForm({ userId }: CreateUrlFormProps) {
         console.log(data)
         shortening(data)
             .then((res) => {
-                const shortenedUrl = `https://nyte.tk/to/${
+                const shortenedUrl = `https://nyte.tk/${
                     res.customId || res.shortenedId
                 }`
                 toast({

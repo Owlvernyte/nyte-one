@@ -8,6 +8,7 @@ import CreateUrlForm from './create-url-form'
 import { Separator } from '@/components/ui/separator'
 import { Metadata } from 'next'
 import Stats from './stats'
+import LinkList from './link-list'
 
 export const metadata: Metadata = {
     title: 'Nyte One | URL Shortener',
@@ -39,6 +40,9 @@ async function UrlShortener() {
             </div>
             <div className="hidden md:block w-full">
                 <DataTable columns={columns} data={convertedData} />
+            </div>
+            <div className="block md:hidden w-full">
+                <LinkList data={convertedData} />
             </div>
         </div>
     )

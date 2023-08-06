@@ -16,7 +16,7 @@ import { notFound, redirect } from 'next/navigation'
 import { addClick } from './add-click'
 
 type Props = {
-    params: { id: string }
+    params: { shortenedId: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -25,7 +25,7 @@ export async function generateMetadata({
 }: Props): Promise<NextMetadata> {
     try {
         // read route params
-        const id = params.id
+        const id = params.shortenedId
 
         const shortenedUrl = await getUrlByQuery(id)
 
@@ -78,7 +78,7 @@ export async function generateMetadata({
 }
 
 async function ToUrl({ params, searchParams }: Props) {
-    const shortenedUrl = await getUrlByQuery(params.id)
+    const shortenedUrl = await getUrlByQuery(params.shortenedId)
 
     if (!shortenedUrl) return notFound()
 
